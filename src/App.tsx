@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Brain, Sparkles, FileText } from 'lucide-react';
 import FileUpload from './components/FileUpload';
 import SummaryDisplay from './components/SummaryDisplay';
+import Login from './components/Login';
 import { generateDocumentSummary } from './services/geminiService';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
   const [summary, setSummary] = useState('');
   const [selectedFileName, setSelectedFileName] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleFileSelect = async (file: File) => {
     setError(null);
@@ -37,6 +39,10 @@ function App() {
       setIsProcessing(false);
     }
   };
+
+  if (!isLoggedIn) {
+    return <Login onLoginSuccess={() => setIsLoggedIn(true)} />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
